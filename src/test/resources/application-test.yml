@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:bochocredit;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;NON_KEYWORDS=USER
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: false
+
+bochocredit:
+  jwt:
+    secret: test_secret_solo_para_pruebas_unitarias_bochocredit_2026
+    expiration-ms: 3600000
