@@ -13,7 +13,12 @@ import java.util.Optional;
 @Repository
 public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
 
-    long countByEsElegidoTrue();
+    @Query("""
+        SELECT COUNT(s) FROM Simulacion s
+        JOIN s.cliente c
+        WHERE s.esElegido = true
+        """)
+    Long countByEsElegidoTrue();
 
     @Query("""
         SELECT s FROM Simulacion s

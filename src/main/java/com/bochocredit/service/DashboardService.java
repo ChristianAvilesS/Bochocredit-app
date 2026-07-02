@@ -17,16 +17,16 @@ public class DashboardService {
     private final ClienteRepository clienteRepository;
     private final VehiculoRepository vehiculoRepository;
 
-    public long cantidadCreditos() {
+    public Long cantidadCreditos() {
         return simulacionRepository.countByEsElegidoTrue();
     }
 
-    public long cantidadClientes() {
-        return clienteRepository.count();
+    public Long cantidadClientes() {
+        return clienteRepository.countTotal();
     }
 
-    public long cantidadVehiculos() {
-        return vehiculoRepository.count();
+    public Long cantidadVehiculos() {
+        return vehiculoRepository.countTotal();
     }
 
     public List<SimulacionDtos.SimulacionListItem> top5CreditosMasRecientes() {
