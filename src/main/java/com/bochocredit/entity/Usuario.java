@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "usuarios")
 @Data
@@ -24,7 +26,6 @@ public class Usuario {
     @Column(name = "username", nullable = false, unique = true, length = 50)
     private String username;
 
-    /** Hash BCrypt — nunca se expone en DTOs de salida. */
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -34,6 +35,9 @@ public class Usuario {
     @Column(name = "activo", nullable = false)
     @Builder.Default
     private Boolean activo = true;
+
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_rol")

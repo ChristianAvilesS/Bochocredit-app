@@ -14,8 +14,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate   # Flyway controla el esquema; Hibernate solo valida
-    show-sql: false
+      ddl-auto: update   # Flyway controla el esquema; Hibernate solo valida
+    show-sql: true
     properties:
       hibernate:
         format_sql: true

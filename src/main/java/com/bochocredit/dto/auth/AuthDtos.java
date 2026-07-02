@@ -9,6 +9,12 @@ public class AuthDtos {
             @NotBlank(message = "La contraseña es obligatoria") String password
     ) {}
 
+    public record ChangePasswordRequestDTO(
+            @NotBlank(message = "El usuario es obligatorio") String username,
+            @NotBlank(message = "La contraseña es obligatoria") String passwordAntigua,
+            @NotBlank(message = "La contraseña es obligatoria") String passwordNueva
+    ) {}
+
     public record LoginResponse(
             String token,
             String tokenType,
