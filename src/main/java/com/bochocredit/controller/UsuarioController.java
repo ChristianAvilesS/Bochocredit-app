@@ -57,12 +57,12 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    @PutMapping("/cambiar-password/{id}")
+    @PatchMapping("/cambiar-password/{id}")
     public ResponseEntity<Boolean> cambiarPassword(@PathVariable Long id,
                                                       @Valid @RequestBody AuthDtos.ChangePasswordRequestDTO request) {
         var login = new AuthDtos.LoginRequest(request.username(), request.passwordAntigua());
         if (authService.login(login).userId() != null)
-            return ResponseEntity.ok(servicio.cambiarPassword(id, request.passwordNueva()));
+            return ResponseEntity.ok(servicio.cambiarPassword(id, passwordEncoder.encode(request.passwordNueva())));
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

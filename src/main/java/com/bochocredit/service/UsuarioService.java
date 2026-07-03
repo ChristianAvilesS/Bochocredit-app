@@ -7,6 +7,7 @@ import com.bochocredit.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +33,8 @@ public class UsuarioService {
         var u = obtenerPorId(id);
         if (u != null) {
             u.setPassword(password);
+            u.setFechaModificacion(LocalDateTime.now());
+            repos.save(u);
             return true;
         }
         return false;
