@@ -23,5 +23,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "WHERE u.id = :id AND " +
             "u.activo = true AND " +
             "u.fechaModificacion IS NULL")
-    Boolean renovarPassword(@Param("id") Long id);
+    Usuario renovarPassword(@Param("id") Long id);
 }

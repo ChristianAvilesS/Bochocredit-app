@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,27 +26,33 @@ public class UsuarioController {
     private final UsuarioService servicio;
     private final PasswordGenerator generator;
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> listar() {
         return ResponseEntity.ok(servicio.listarUsuarios().stream().map(usuario ->
-            new UsuarioDTO(usuario.getNombreCompleto(), usuario.getUsername(), usuario.getEmail())
+            new UsuarioDTO(usuario.getId(), usuario.getNombreCompleto(), usuario.getUsername(), usuario.getEmail(),
+                    usuario.getRol().getNombreRol().toLowerCase())
         ).collect(Collectors.toList()));
     }
 
     @PostMapping
     public ResponseEntity<UsuarioCreacionDTO> crear(@Valid @RequestBody UsuarioRequestDTO request) {
         Usuario u = new Usuario();
+
+        var passwordGenerada = generator.generarPassword(System.currentTimeMillis() / 1560L);
+
         u.setActivo(true);
         u.setRol(servicio.obtenerRol(request.getRol()));
         u.setNombreCompleto(request.getNombreCompleto());
         u.setUsername(request.getUsername());
         u.setEmail(request.getEmail());
         u.setFechaModificacion(null);
+        u.setPassword(passwordEncoder.encode(passwordGenerada));
 
         u = servicio.guardarUsuario(u);
 
-        var dto = new UsuarioCreacionDTO(u.getUsername(), generator.generarPassword(u.getId()));
+        var dto = new UsuarioCreacionDTO(u.getUsername(), passwordGenerada);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }

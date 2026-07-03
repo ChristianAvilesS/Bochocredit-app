@@ -46,6 +46,7 @@ public class UsuarioService {
         if (u != null) {
             if (u.getActivo()){
                 u.setActivo(false);
+                repos.save(u);
             }
         }
     }
