@@ -1,6 +1,6 @@
 package com.bochocredit.controller;
 
-import com.bochocredit.dto.simulacion.SimulacionDtos;
+import com.bochocredit.dto.simulacion.SimulacionListItemDTO;
 import com.bochocredit.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ public class DashboardController {
     }
 
     @GetMapping("/creditos-recientes")
-    public ResponseEntity<List<SimulacionDtos.SimulacionListItem>> top5CreditosMasRecientes() {
+    public ResponseEntity<List<SimulacionListItemDTO>> top5CreditosMasRecientes() {
         return ResponseEntity.ok(servicio.top5CreditosMasRecientes());
     }
 

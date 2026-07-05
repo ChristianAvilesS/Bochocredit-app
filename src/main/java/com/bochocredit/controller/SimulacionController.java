@@ -1,10 +1,13 @@
 package com.bochocredit.controller;
 
-import com.bochocredit.dto.simulacion.SimulacionDtos.CalculoPreview;
-import com.bochocredit.dto.simulacion.SimulacionDtos.SimulacionDetalle;
-import com.bochocredit.dto.simulacion.SimulacionDtos.SimulacionListItem;
-import com.bochocredit.dto.simulacion.SimulacionRequest;
+import com.bochocredit.dto.simulacion.DetalleSimulacionDTO;
+import com.bochocredit.dto.simulacion.PagoDTO;
+import com.bochocredit.dto.simulacion.SimulacionCronogramaDTO;
+import com.bochocredit.dto.simulacion.SimulacionListItemDTO;
+import com.bochocredit.entity.Pago;
+import com.bochocredit.util.ClassMapper;
 import com.bochocredit.service.SimulacionService;
+import com.bochocredit.util.classes.RequestSimulacion;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,52 +17,65 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/creditos")
 @RequiredArgsConstructor
 public class SimulacionController {
 
     private final SimulacionService simulacionService;
+    private final ClassMapper mapper;
 
-    /** Equivalente a /api/calcular (POST) — vista previa en tiempo real, sin persistir. */
-    @PostMapping("/calcular")
-    public ResponseEntity<CalculoPreview> calcular(@Valid @RequestBody SimulacionRequest request) {
-        return ResponseEntity.ok(simulacionService.calcular(request));
-    }
-
-    /** Equivalente a /creditos (GET) — listado completo. */
-    @GetMapping("/creditos")
-    public ResponseEntity<List<SimulacionListItem>> listar() {
+    @GetMapping
+    public ResponseEntity<List<SimulacionListItemDTO>> listar() {
         return ResponseEntity.ok(simulacionService.listar());
     }
 
-    /** Listado de créditos filtrado por cliente — usado en el perfil de cliente. */
-    @GetMapping("/clientes/{clienteId}/creditos")
-    public ResponseEntity<List<SimulacionListItem>> listarPorCliente(@PathVariable Long clienteId) {
+
+    @GetMapping("/clientes/{clienteId}")
+    public ResponseEntity<List<SimulacionListItemDTO>> listarPorCliente(@PathVariable Long clienteId) {
         return ResponseEntity.ok(simulacionService.listarPorCliente(clienteId));
     }
 
-    /** Equivalente a /creditos/{id} (GET) — detalle con cronograma completo. */
-    @GetMapping("/creditos/{id}")
-    public ResponseEntity<SimulacionDetalle> obtener(@PathVariable Long id) {
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DetalleSimulacionDTO> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(simulacionService.obtener(id));
     }
 
-    /** Equivalente a /creditos/nuevo (POST) — calcula y persiste una nueva oferta. */
-    @PostMapping("/creditos")
-    public ResponseEntity<SimulacionDetalle> crear(@Valid @RequestBody SimulacionRequest request) {
+
+    @PostMapping
+    public ResponseEntity<DetalleSimulacionDTO> crear(@Valid @RequestBody RequestSimulacion request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(simulacionService.crear(request));
     }
 
-    /** Equivalente a /creditos/{id}/editar (POST) — recalcula y actualiza. */
-    @PutMapping("/creditos/{id}")
-    public ResponseEntity<SimulacionDetalle> actualizar(@PathVariable Long id, @Valid @RequestBody SimulacionRequest request) {
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DetalleSimulacionDTO> actualizar(@PathVariable Long id,
+                                                           @Valid @RequestBody RequestSimulacion request) {
         return ResponseEntity.ok(simulacionService.actualizar(id, request));
     }
 
     /** Marca una simulación como el plan elegido por el cliente (bloquea el vehículo). */
-    @PatchMapping("/creditos/{id}/elegir")
+    @PatchMapping("/{id}/elegir")
     public ResponseEntity<Void> elegir(@PathVariable Long id) {
         simulacionService.elegir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/pagos/{id}")
+    public List<PagoDTO> listarPagosPorSimulacion(@PathVariable Long id) {
+        return toDTOList(simulacionService.listarPagosPorSimulacion(id));
+    }
+
+    @PostMapping("/simulacion")
+    public ResponseEntity<SimulacionCronogramaDTO> simularCronograma(@Valid @RequestBody
+                                                                         RequestSimulacion request) {
+        return ResponseEntity.ok(simulacionService.simularCronograma(request));
+    }
+
+
+    private List<PagoDTO> toDTOList(List<Pago> pagos) {
+        return pagos.stream()
+                .map(mapper::toPagoDto)
+                .toList();
     }
 }

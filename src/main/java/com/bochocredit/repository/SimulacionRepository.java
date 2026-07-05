@@ -33,8 +33,6 @@ public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
 
     List<Simulacion> findAllByOrderByCreadoEnDesc();
 
-    Optional<Simulacion> findByIdAndIdNot(Long id, Long excludeId);
-
     @Query("""
         SELECT s FROM Simulacion s
         WHERE s.vehiculo.id = :vehiculoId AND s.esElegido = true

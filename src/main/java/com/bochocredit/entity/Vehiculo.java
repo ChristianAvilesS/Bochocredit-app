@@ -32,7 +32,7 @@ public class Vehiculo {
     @Column(name = "precio", nullable = false, precision = 14, scale = 2)
     private BigDecimal precio;
 
-    @Column(name = "descripcion", length = 255)
+    @Column(name = "descripcion")
     private String descripcion;
 
     @Enumerated(EnumType.STRING)

@@ -27,10 +27,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    /*
     @PostMapping("/login/test")
     public ResponseEntity<String> getPassword(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(request.password() + ":" + passwordEncoder.encode(request.password()));
     }
-     */
 }

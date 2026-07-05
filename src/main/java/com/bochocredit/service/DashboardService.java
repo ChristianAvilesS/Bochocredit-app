@@ -1,10 +1,10 @@
 package com.bochocredit.service;
 
-import com.bochocredit.dto.simulacion.SimulacionDtos;
-import com.bochocredit.entity.Simulacion;
+import com.bochocredit.dto.simulacion.SimulacionListItemDTO;
 import com.bochocredit.repository.ClienteRepository;
 import com.bochocredit.repository.SimulacionRepository;
 import com.bochocredit.repository.VehiculoRepository;
+import com.bochocredit.util.ClassMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,7 @@ public class DashboardService {
     private final SimulacionRepository simulacionRepository;
     private final ClienteRepository clienteRepository;
     private final VehiculoRepository vehiculoRepository;
+    private final ClassMapper mapper;
 
     public Long cantidadCreditos() {
         return simulacionRepository.countByEsElegidoTrue();
@@ -29,27 +30,10 @@ public class DashboardService {
         return vehiculoRepository.countTotal();
     }
 
-    public List<SimulacionDtos.SimulacionListItem> top5CreditosMasRecientes() {
+    public List<SimulacionListItemDTO> top5CreditosMasRecientes() {
         return simulacionRepository.findRecientesElegidas().stream()
-                .map(this::toListItem)
+                .map(mapper::toListItem)
                 .toList();
     }
-
-    private SimulacionDtos.SimulacionListItem toListItem(Simulacion s) {
-        return new SimulacionDtos.SimulacionListItem(
-                s.getId(),
-                s.getCliente().getNombreCompleto(),
-                s.getVehiculo().getNombreCompleto(),
-                s.getMoneda(),
-                s.getSaldoFinanciado(),
-                s.getPlazoMeses(),
-                s.getTcea(),
-                s.getVan(),
-                s.getTir(),
-                s.getEsElegido(),
-                s.getCreadoEn()
-        );
-    }
-
 
 }
