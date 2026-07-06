@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "simulaciones")
@@ -117,6 +119,9 @@ public class Simulacion {
 
     @Column(name = "cok", precision = 6, scale = 4)
     private BigDecimal cok;
+
+    @OneToMany(mappedBy = "simulacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pago> pagos = new ArrayList<>();
 
     @PrePersist
     void prePersist() {

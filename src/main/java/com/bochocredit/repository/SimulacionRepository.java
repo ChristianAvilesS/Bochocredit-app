@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
@@ -16,14 +14,12 @@ public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
     @Query("""
         SELECT COUNT(s) FROM Simulacion s
         JOIN s.cliente c
-        WHERE s.esElegido = true
         """)
     Long countByEsElegidoTrue();
 
     @Query("""
         SELECT s FROM Simulacion s
         JOIN s.cliente c
-        WHERE s.esElegido = true
         ORDER BY s.creadoEn DESC
         LIMIT 10
         """)

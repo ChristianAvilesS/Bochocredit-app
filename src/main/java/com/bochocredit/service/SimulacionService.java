@@ -137,6 +137,14 @@ public class SimulacionService {
 
 
 
+    public Boolean eliminar(Long id) {
+        if (obtener(id) == null) {
+            return false;
+        }
+        simRepos.deleteById(id);
+        return true;
+    }
+
 
     // ─────────────────────────────────────────────
     // LECTURA

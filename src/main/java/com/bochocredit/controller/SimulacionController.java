@@ -72,6 +72,10 @@ public class SimulacionController {
         return ResponseEntity.ok(simulacionService.simularCronograma(request));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> eliminar(@PathVariable Long id) {
+        return ResponseEntity.ok(simulacionService.eliminar(id));
+    }
 
     private List<PagoDTO> toDTOList(List<Pago> pagos) {
         return pagos.stream()
