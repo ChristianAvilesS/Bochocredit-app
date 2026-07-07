@@ -50,4 +50,8 @@ public class DetalleSimulacionDTO {
     private String vehiculoModelo;
     private Integer vehiculoAnio;
     private BigDecimal precioVehiculo;
+
+
+    private BigDecimal notariales;
+    private BigDecimal registrales;
 }

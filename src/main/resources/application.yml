@@ -28,7 +28,7 @@ bochocredit:
     secret: ${JWT_SECRET:8EQ9erCMDArSWcaXnAZ6pcP3BMBPc1HXwM5COQNuWiD}
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}   # 24 horas
   cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:3000,http://localhost:8080,http://localhost:5173}
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3000,http://192.168.50.185:3000,http://localhost:8080,http://localhost:5173}
 
 logging:
   level:

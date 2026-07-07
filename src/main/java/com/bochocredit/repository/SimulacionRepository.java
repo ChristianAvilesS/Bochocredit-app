@@ -19,13 +19,16 @@ public interface SimulacionRepository extends JpaRepository<Simulacion, Long> {
 
     @Query("""
         SELECT s FROM Simulacion s
-        JOIN s.cliente c
+        JOIN Cliente c ON s.cliente.id = c.id
         ORDER BY s.creadoEn DESC
         LIMIT 10
         """)
     List<Simulacion> findRecientesElegidas();
 
-    List<Simulacion> findByClienteIdOrderByCreadoEnDesc(Long clienteId);
+    @Query("SELECT s FROM Simulacion s " +
+            "WHERE s.cliente.id = :id " +
+            "ORDER BY s.creadoEn DESC")
+    List<Simulacion> buscarPorCliente(@Param("id") Long clienteId);
 
     List<Simulacion> findAllByOrderByCreadoEnDesc();
 

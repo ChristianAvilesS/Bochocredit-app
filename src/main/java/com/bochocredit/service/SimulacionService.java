@@ -157,7 +157,7 @@ public class SimulacionService {
     }
 
     public List<SimulacionListItemDTO> listarPorCliente(Long clienteId) {
-        return simRepos.findByClienteIdOrderByCreadoEnDesc(clienteId).stream()
+        return simRepos.buscarPorCliente(clienteId).stream()
                 .map(mapper::toListItem)
                 .toList();
     }

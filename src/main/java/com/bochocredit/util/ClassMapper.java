@@ -104,6 +104,8 @@ public class ClassMapper {
         detalle.setGastosAdmin(s.getGastosAdmin());
         detalle.setGps(s.getGps());
         detalle.setCok(s.getCok());
+        detalle.setNotariales(s.getGastosNotar());
+        detalle.setRegistrales(s.getGastosRegist());
 
         if (c != null) {
             detalle.setClienteId(c.getId());

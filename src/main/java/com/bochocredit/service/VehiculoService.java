@@ -27,6 +27,13 @@ public class VehiculoService {
                 .toList();
     }
 
+    public List<VehiculoResponse> listarPorCliente(Long id) {
+        return vehiculoRepository.buscarPorCliente(id).stream()
+                .sorted((a, b) -> b.getId().compareTo(a.getId()))
+                .map(this::toResponse)
+                .toList();
+    }
+
     public VehiculoResponse obtener(Long id) {
         return toResponse(buscarOFallar(id));
     }

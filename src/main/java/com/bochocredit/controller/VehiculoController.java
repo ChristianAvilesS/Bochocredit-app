@@ -23,6 +23,11 @@ public class VehiculoController {
         return ResponseEntity.ok(vehiculoService.listar());
     }
 
+    @GetMapping("/clientes/{id}")
+    public ResponseEntity<List<VehiculoResponse>> listarPorCliente(@PathVariable Long id) {
+        return ResponseEntity.ok(vehiculoService.listarPorCliente(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<VehiculoResponse> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(vehiculoService.obtener(id));
