@@ -46,6 +46,6 @@ public class Vehiculo {
 
     @Transient
     public String getNombreCompleto() {
-        return marca + " " + modelo;
+        return marca + " " + modelo + " " + anio;
     }
 }
